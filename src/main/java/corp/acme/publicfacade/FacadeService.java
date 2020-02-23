@@ -1,5 +1,6 @@
 package corp.acme.publicfacade;
 
+import corp.acme.common.domain.Product;
 import corp.acme.common.domain.ProductRequest;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import corp.acme.common.domain.Category;
@@ -37,10 +38,10 @@ public class FacadeService {
         return call.retrieve().toEntity(List.class).block().getBody();
     }
 
-    public List<Classification> getProduct(ProductRequest productRequest){
+    public Product getProduct(ProductRequest productRequest){
         URI uri = this.discoveryClient.getInstances("PRODUCTS").get(0).getUri();
         WebClient.RequestHeadersSpec call = ServiceCall.buildDefaultJsonCall(uri, "getProduct", productRequest);
-        return call.retrieve().toEntity(List.class).block().getBody();
+        return call.retrieve().toEntity(Product.class).block().getBody();
     }
 
     // There is a nicer way for sure, but no time to research
