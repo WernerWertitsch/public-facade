@@ -1,8 +1,21 @@
 <div *ngIf="mainRowEntry">
-  <div>{{mainRowEntry.classification.name}}</div>
-  <div>{{mainRowEntry.classification.category.name}}</div>
-  <div><input [(ngModel)]="productRequest.value"> </div>
 
+  <div *ngIf="mainRowEntry.notRecognized && mainRowEntry.classificationRequest">
+    <div>{{mainRowEntry.classificationRequest}}</div>
+    <div>({{mainRowEntry.proposedValueOnImport}})</div>
+  </div>
+
+  <app-classification-input [allClassifications$]="allClassifications$"></app-classification-input>
+
+  <div *ngIf="mainRowEntry.classification">
+    <div>{{mainRowEntry.classification.name}}</div>
+    <div>{{mainRowEntry.classification.category.name}}</div>
+  </div>
+  <div *ngIf="mainRowEntry.product">>
+    <div>{{mainRowEntry.product.value}}</div>
+    <div>{{mainRowEntry.product.premium}}</div>
+    <div>{{mainRowEntry.product.insuredFrom}}</div>
+    <div>{{mainRowEntry.product.cancelled}}</div>
+  </div>
 </div>
 
-// TODO MONTAG: ProductRequest sobald in value was drinnen steht, heißt ngModl kann current Pro

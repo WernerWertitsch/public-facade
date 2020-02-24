@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {MainRowEntry} from "../../core/service/state.service";
+import {MainRowEntry, StateService} from "../../core/service/state.service";
 import {Observable} from "rxjs";
-import {ProductRequest} from "../../core/domain";
+import {Classification, ProductRequest} from "../../core/domain";
 
 @Component({
   selector: 'app-main-row-entry',
@@ -11,15 +11,15 @@ import {ProductRequest} from "../../core/domain";
 export class MainRowEntryComponent implements OnInit {
 
   @Input()
-  mainRowEntry$: Observable<MainRowEntry>;
   mainRowEntry: MainRowEntry;
-  productRequest: ProductRequest;
 
-  constructor() { }
+  allClassifications$: Observable<Classification[]>;
+
+
+  constructor(private stateService: StateService) { }
 
   ngOnInit() {
-    this.mainRowEntry$.subscribe(e => this.mainRowEntry = e);
-    this.productRequest.classification = this.mainRowEntry.classification;
+    this.allClassifications$ = this.stateService.allClassifications$;
   }
 
 
