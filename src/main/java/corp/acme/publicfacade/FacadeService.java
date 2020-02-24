@@ -1,10 +1,7 @@
 package corp.acme.publicfacade;
 
-import corp.acme.common.domain.Product;
-import corp.acme.common.domain.ProductRequest;
+import corp.acme.common.domain.*;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import corp.acme.common.domain.Category;
-import corp.acme.common.domain.Classification;
 import corp.acme.common.util.ServiceCall;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +25,9 @@ public class FacadeService {
 
     public List<Classification> fetchClassifications(List<String> substanceNames){
         URI uri = this.discoveryClient.getInstances("PRODUCTS").get(0).getUri();
-        WebClient.RequestHeadersSpec call = ServiceCall.buildDefaultCall(uri, "getClassifications", getAsListString(substanceNames));
+        ClassificationRequest body = new ClassificationRequest();
+        body.setSubstanceNames(substanceNames);
+        WebClient.RequestHeadersSpec call = ServiceCall.buildDefaultJsonCall(uri, "getClassifications", body);
         return call.retrieve().toEntity(List.class).block().getBody();
     }
 
@@ -43,11 +42,4 @@ public class FacadeService {
         WebClient.RequestHeadersSpec call = ServiceCall.buildDefaultJsonCall(uri, "getProduct", productRequest);
         return call.retrieve().toEntity(Product.class).block().getBody();
     }
-
-    // There is a nicer way for sure, but no time to research
-    private String getAsListString(List<String> strings) {
-        return strings.stream().map(Object::toString).collect(Collectors.joining(","));
-    }
-
-
 }
