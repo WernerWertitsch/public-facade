@@ -10,6 +10,7 @@ import {Observable} from "rxjs";
 export class AcmePublicServices {
 
   USE_MOCK = true;
+  RUNNING_IN_SEPARATE_TOMCAT = false;
 
   constructor(private http: HttpClient, private stateService: StateService) {
 
@@ -66,7 +67,7 @@ export class AcmePublicServices {
 
   private serverUrl(service: string): string {
     const s = this.USE_MOCK ? `${service}Mock` : service;
-    return `/api/${s}`;
+    return this.RUNNING_IN_SEPARATE_TOMCAT ? `/api/${s}`:`/${s}`;
   }
 
 }

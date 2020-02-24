@@ -30,3 +30,4 @@ build/
 ### VS Code ###
 .vscode/
 /angular/boomin/node_modules/
+/src/main/resources/public/

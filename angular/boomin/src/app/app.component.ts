@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AcmePublicServices} from "./core/service/acme-public-services.service";
 import {StateService} from "./core/service/state.service";
+import {catchError} from "rxjs/operators";
+import {of} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -16,6 +18,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.loadAllClassifications();
+    this.stateService.allClassifications$.pipe(
+      catchError(e => {
+        setTimeout(t=> this.service.loadAllClassifications(), 3000);
+        return of(e);
+      })
+    ).subscribe();
     this.stateService.newRow();
   }
 

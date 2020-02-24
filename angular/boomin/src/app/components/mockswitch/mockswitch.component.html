@@ -1,3 +1,7 @@
-<span *ngIf="status()">Currently using public facade mock service</span>
-<span *ngIf="!status()">Currently NOT (!NOT!) using public facade mock service</span>
-<button (click)="toggle()">Switch</button>
+<span *ngIf="mockStatus()">Currently using public facade mock service</span>
+<span *ngIf="!mockStatus()">Currently NOT (!NOT!) using public facade mock service</span>
+<button (click)="toggleMock()">Switch</button>
+<span *ngIf="tomcatStatusSeparate()">Currently UI is running on a separte server</span>
+<span *ngIf="!tomcatStatusSeparate()">Currently UI is running on the same server</span>
+<button (click)="toggleTomcat()">Switch</button>
+<button (click)="load()">Load Classifications</button>
