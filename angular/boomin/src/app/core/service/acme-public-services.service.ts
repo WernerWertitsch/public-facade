@@ -9,7 +9,7 @@ import {Observable} from "rxjs";
 })
 export class AcmePublicServices {
 
-  readonly USE_MOCK = true;
+  USE_MOCK = true;
 
   constructor(private http: HttpClient, private stateService: StateService) {
 

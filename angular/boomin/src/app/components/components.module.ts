@@ -14,9 +14,10 @@ import { UploadComponent } from './upload/upload.component';
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatExpansionModule} from "@angular/material/expansion";
+import { MockswitchComponent } from './mockswitch/mockswitch.component';
 
 @NgModule({
-  declarations: [ MainRowEntriesComponent, ClassificationInputComponent, UploadComponent],
+  declarations: [ MainRowEntriesComponent, ClassificationInputComponent, UploadComponent, MockswitchComponent],
   imports: [
     CommonModule,
     CoreModule,
@@ -35,8 +36,8 @@ import {MatExpansionModule} from "@angular/material/expansion";
   ],
   exports: [
     MainRowEntriesComponent,
-    UploadComponent
-
+    UploadComponent,
+    MockswitchComponent
   ]
 })
 export class ComponentsModule { }
