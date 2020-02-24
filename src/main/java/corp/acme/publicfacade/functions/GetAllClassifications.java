@@ -10,11 +10,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class GetAllClassifications implements Supplier<List<Classification>> {
-
-    @Value( "${frontend-dev-mode}" )
-    private boolean frontendDevMode = false;
-
-
     @Autowired
     FacadeService facadeService;
 

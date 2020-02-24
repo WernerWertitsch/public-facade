@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.function.Function;
 
 public class GetProduct implements Function<ProductRequest, Product> {
-    @Value( "${frontend-dev-mode}" )
-    private boolean frontendDevMode = false;
-
     @Autowired
     FacadeService facadeService;
 
