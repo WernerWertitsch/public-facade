@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="mainRowEntries" class="mat-elevation-z8 full-width">
+<table mat-table [dataSource]="mainRowEntries$ | async" class="mat-elevation-z8 full-width">
 
   <!--- Note that these columns can be defined in any order.
         The actual rendered columns are set as a property on the row definition" -->
@@ -8,8 +8,8 @@
     <th mat-header-cell *matHeaderCellDef> Name </th>
     <td mat-cell *matCellDef="let element">
       <app-classification-input *ngIf="element.isNew" [allClassifications$]="allClassifications$" (selectionOccurred)="classificationSelected(element, $event)"></app-classification-input>
-      <span *ngIf="!element.isNew && element.classification">{{element.classification.name}}</span>
-      <span *ngIf="element.notRecognized">{{element.classificationRequest}} - ({{element.proposedValueOnImport}})</span>
+      <span *ngIf="!element.isNew && element.product">{{element.product.classification.name}}</span>
+      <span *ngIf="element.notRecognized">{{element.classificationRequest}}</span>
     </td>
   </ng-container>
 
@@ -19,6 +19,7 @@
     <th mat-header-cell *matHeaderCellDef> Classification </th>
     <td mat-cell *matCellDef="let element">
       <span *ngIf="element.product"> {{element.product.classification?.category?.name}}</span>
+      <span *ngIf="element.notRecognized"> GENERIC! (not impl. ) </span>
     </td>
   </ng-container>
 
@@ -26,11 +27,11 @@
   <ng-container matColumnDef="value">
     <th mat-header-cell *matHeaderCellDef> Insured Value </th>
     <td mat-cell *matCellDef="let element">
-      <span *ngIf="element.product.insured"> {{element.product.value}}</span>
+      <span *ngIf="element.product && element.product.insured"> {{element.product.value}}</span>
       <input (keyup)="requestProduct(element)"  [(ngModel)]="element.product.value"
-        [value]="element.notRecognized ? element.proposedValueOnImport : element.product.value"
-        [disabled]="element.product.insured || element.notRecognized"
-        *ngIf="!element.product.insured"/>
+        [value]="element.notRecognized ? element.proposedValueOnImport : element.product ? element.product.value : 0"
+        [disabled]="element.notRecognized"
+        *ngIf="element.product"/>
     </td>
   </ng-container>
 
@@ -54,9 +55,9 @@
 
   <!-- Insured Column -->
   <ng-container matColumnDef="insured">
-    <th mat-header-cell *matHeaderCellDef> Inusred </th>
+    <th mat-header-cell *matHeaderCellDef> Inusre/d </th>
     <td mat-cell *matCellDef="let element">
-      <span *ngIf="element.product.insured"> INSURED ({{element.product.insuredFrom}})</span>
+      <span *ngIf="element.product && element.product.insured"> INSURED ({{element.product.insuredFrom}})</span>
     </td>
   </ng-container>
 

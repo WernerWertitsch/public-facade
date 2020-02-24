@@ -35,14 +35,20 @@ export class AcmePublicServices {
   }
 
   import(asText: string) {
-    this.classify(asText.split("\r\n").map(line => {
+    const mainRowEntries = asText.split("\n").map(line => {
       const pair = line.split(";");
-      const mainRowEntry = new MainRowEntry();
-      mainRowEntry.classificationRequest = pair[0];
-      mainRowEntry.proposedValueOnImport = +pair[1];
-      mainRowEntry.isNew = false;
-      return mainRowEntry;
-    }));
+      if(pair.length>1) {
+        const mainRowEntry = new MainRowEntry();
+        mainRowEntry.classificationRequest = pair[0];
+        mainRowEntry.proposedValueOnImport = +pair[1].replace(",",".").split(" ").join("");
+        mainRowEntry.isNew = false;
+        return mainRowEntry;
+      }
+      return undefined;
+    }).filter(e => e!=undefined);
+    this.classify(mainRowEntries);
+    this.stateService.mainRowEntries$.next(mainRowEntries);
+
   }
 
 
@@ -50,7 +56,8 @@ export class AcmePublicServices {
     const classificationRequest = new ClassificationRequest();
     classificationRequest.substanceNames = rows.map(m => m.classificationRequest);
     this.http.post<Classification[]>(this.serverUrl("getClassificationsFor"), classificationRequest)
-      .subscribe( c => this.stateService.nextAllClassifactions(c));
+      .subscribe( c =>
+        this.stateService.nextConfirmedClassifications(c));
   }
 
   newRow() {

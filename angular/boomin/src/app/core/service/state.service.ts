@@ -10,6 +10,7 @@ export class StateService {
   allClassifications$: BehaviorSubject<Classification[]> = new BehaviorSubject<Classification[]>([]);
   mainRowEntries$: BehaviorSubject<MainRowEntry[]> = new BehaviorSubject<MainRowEntry[]>([]);
   loadingProcesses$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  readyForProduct$: BehaviorSubject<MainRowEntry> = new BehaviorSubject<MainRowEntry>(undefined);
 
   constructor() { }
 
@@ -22,19 +23,22 @@ export class StateService {
   }
 
   nextConfirmedClassifications(returnedClassifications: Classification[]) {
-    this.nextMainRowEntries(returnedClassifications.map(c => {
-      const original = this.mainRowEntries$.value.filter(e => e.classificationRequest === c.name);
+    returnedClassifications.forEach(c => {
+      const original = this.mainRowEntries$.value.filter(e =>
+        e.classificationRequest === c.name);
       if(original.length>0) {
-        const m: MainRowEntry = new MainRowEntry();
-        // m.classification = c;
-        m.product = new Product();
-        m.product.value = original[0].proposedValueOnImport ? original[0].proposedValueOnImport : 0;
-        m.product.classification = c;
-        m.notRecognized = false;
-        m.isNew = false;
-        return m;
+        const o = original[0];
+        o.product = new Product();
+        o.product.value = o.proposedValueOnImport ? o.proposedValueOnImport : 0;
+        o.product.classification = c;
+        o.notRecognized = o.product==undefined;
+        o.isNew = false;
+        if(o.product.value && o.product.classification) {
+          this.readyForProduct$.next(o);
+        }
       }
-    }))
+
+    });
   }
 
   newRow() {

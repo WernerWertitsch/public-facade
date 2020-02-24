@@ -1,3 +1,11 @@
 <mat-expansion-panel>
-  <textarea [(ngModel)]="toImport" [cols]="200" [rows]="200"></textarea>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Sadly you have to expand here to import
+    </mat-panel-title>
+    <mat-panel-description>
+      And copy stuff in here..
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <textarea [(ngModel)]="toImport" [cols]="90" [rows]="40" (keyup)="process()"></textarea>
 </mat-expansion-panel>

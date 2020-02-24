@@ -3,6 +3,7 @@ import {MainRowEntry, StateService} from "../../core/service/state.service";
 import {Observable} from "rxjs";
 import {Classification} from "../../core/domain";
 import {AcmePublicServices} from "../../core/service/acme-public-services.service";
+import {filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-main-row-entries',
@@ -13,7 +14,7 @@ export class MainRowEntriesComponent implements OnInit {
   displayedColumns=["name", "category", "value", "feeprct", "premium", "insured"];
 
   mainRowEntries$: Observable<MainRowEntry[]>;
-  mainRowEntries: MainRowEntry[]; //it seems the matieral table doesnt deal properly with observables?
+  // mainRowEntries: MainRowEntry[]; //it seems the matieral table doesnt deal properly with observables?
   allClassifications$: Observable<Classification[]>;
 
   constructor(private stateService: StateService, private acmePublicServices: AcmePublicServices) { }
@@ -22,13 +23,14 @@ export class MainRowEntriesComponent implements OnInit {
   ngOnInit(): void {
     this.mainRowEntries$ = this.stateService.mainRowEntries$;
     this.allClassifications$ = this.stateService.allClassifications$;
-    this.mainRowEntries$.subscribe(e=> {
-      this.mainRowEntries = e;
-    })
+    // this.mainRowEntries$.subscribe(e=> {
+    //   this.mainRowEntries = e;
+    // });
+    this.stateService.readyForProduct$.pipe(filter(m => m !=undefined)).subscribe(m => this.requestProduct(m));
   }
 
   requestProduct(mainRowEntry: MainRowEntry) {
-    if(mainRowEntry.product.value && mainRowEntry.product.classification) {
+    if(mainRowEntry.product && mainRowEntry.product.value && mainRowEntry.product.classification) {
       this.acmePublicServices.requestProduct(mainRowEntry.product);
     }
   }

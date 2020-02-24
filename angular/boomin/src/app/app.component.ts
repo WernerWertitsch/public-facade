@@ -19,5 +19,9 @@ export class AppComponent implements OnInit {
     this.stateService.newRow();
   }
 
+  importFromText(text: string) {
+    this.service.import(text);
+  }
+
 
 }
