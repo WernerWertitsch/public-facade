@@ -1,10 +1,13 @@
-<mat-form-field>
-  <input type="text" matInput [matAutocomplete]="auto" value="" [(ngModel)]="filter" (keyup)="filterChange()">
-</mat-form-field>
+<div class="wrapper">
+<!--  <mat-form-field>-->
+    <input type="text" matInput [width]="400" [matAutocomplete]="auto" value="" [(ngModel)]="filter" (keyup)="filterChange()" class="width-class">
+<!--  </mat-form-field>-->
 
-<mat-autocomplete #auto="matAutocomplete">
-  <mat-option *ngFor="let option of allClassificationsFiltered$ | async"
-              (onSelectionChange)="emitSelection($event)"
-              [value]="option.name" [id]="option.id" >{{option.name}}</mat-option>
-</mat-autocomplete>
-
+  <mat-autocomplete #auto="matAutocomplete" [panelWidth]="'400px'">
+    <mat-option *ngFor="let option of allClassificationsFiltered$ | async"
+                (onSelectionChange)="emitSelection($event)"
+                [value]="option.name" [id]="option.id" >
+      {{option.name}}
+    </mat-option>
+  </mat-autocomplete>
+</div>

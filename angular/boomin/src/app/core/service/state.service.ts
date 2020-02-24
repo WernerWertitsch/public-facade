@@ -26,7 +26,7 @@ export class StateService {
       const original = this.mainRowEntries$.value.filter(e => e.classificationRequest === c.name);
       if(original.length>0) {
         const m: MainRowEntry = new MainRowEntry();
-        m.classification = c;
+        // m.classification = c;
         m.product = new Product();
         m.product.value = original[0].proposedValueOnImport ? original[0].proposedValueOnImport : 0;
         m.product.classification = c;
@@ -57,7 +57,7 @@ export class StateService {
 }
 
 export class MainRowEntry {
-  classification: Classification;
+  // classification: Classification;
   product: Product;
   // not a nice solution but ok for this scope
   classificationRequest: string;

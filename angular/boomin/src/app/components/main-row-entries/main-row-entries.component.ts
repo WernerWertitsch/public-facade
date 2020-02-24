@@ -31,7 +31,10 @@ export class MainRowEntriesComponent implements OnInit {
     if(mainRowEntry.product.value && mainRowEntry.product.classification) {
       this.acmePublicServices.requestProduct(mainRowEntry.product);
     }
+  }
 
+  getCategoryFor(mainRowEntry: MainRowEntry) {
+    return mainRowEntry?.product?.classification?.category?.name
   }
 
   classificationSelected(mainRowEntry: MainRowEntry, classification: Classification) {
