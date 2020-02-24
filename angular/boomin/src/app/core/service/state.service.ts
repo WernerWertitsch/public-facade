@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {Classification, Product, ProductRequest} from "../domain";
+import {Classification, Product} from "../domain";
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +28,7 @@ export class StateService {
         const m: MainRowEntry = new MainRowEntry();
         m.classification = c;
         m.product = new Product();
-        m.product.value = original[0].proposedValueOnImport;
+        m.product.value = original[0].proposedValueOnImport ? original[0].proposedValueOnImport : 0;
         m.product.classification = c;
         m.notRecognized = false;
         m.isNew = false;
@@ -40,6 +40,8 @@ export class StateService {
   newRow() {
     const entry = new MainRowEntry();
     entry.notRecognized = false;
+    entry.product = new Product();
+    entry.product.value = 0;
     this.mainRowEntries$.next(this.mainRowEntries$.value.concat(entry));
   }
 

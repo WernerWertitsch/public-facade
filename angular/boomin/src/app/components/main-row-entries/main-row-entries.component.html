@@ -7,7 +7,7 @@
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Name </th>
     <td mat-cell *matCellDef="let element">
-      <app-classification-input *ngIf="element.isNew" [allClassifications$]="allClassifications$"></app-classification-input>
+      <app-classification-input *ngIf="element.isNew" [allClassifications$]="allClassifications$" (selectionOccurred)="classificationSelected(element, $event)"></app-classification-input>
       <span *ngIf="!element.isNew && element.classification">{{element.classification.name}}</span>
       <span *ngIf="element.notRecognized">{{element.classificationRequest}} - ({{element.proposedValueOnImport}})</span>
     </td>
@@ -23,18 +23,20 @@
   </ng-container>
 
   <!-- Value Column -->
-  <ng-container matColumnDef="category">
-    <th mat-header-cell *matHeaderCellDef> Value </th>
+  <ng-container matColumnDef="value">
+    <th mat-header-cell *matHeaderCellDef> Insured Value </th>
     <td mat-cell *matCellDef="let element">
-      <span *ngIf="element.product"> {{element.product.value}}</span>
-      <input [value]="element.notRecognized ? element.proposedValueOnImport :
-      element.product ? element.product.insuredValue : element.productRequest.value" [disabled]="element.product.insured || element.notRecognized"/>
+      <span *ngIf="element.product.insured"> {{element.product.value}}</span>
+      <input (keyup)="requestProduct(element)"  [(ngModel)]="element.product.value"
+        [value]="element.notRecognized ? element.proposedValueOnImport : element.product.value"
+        [disabled]="element.product.insured || element.notRecognized"
+        *ngIf="!element.product.insured"/>
     </td>
   </ng-container>
 
-  <!-- Prct Column -->
-  <ng-container matColumnDef="category">
-    <th mat-header-cell *matHeaderCellDef> Value </th>
+  <!-- Fee Prct Column -->
+  <ng-container matColumnDef="feeprct">
+    <th mat-header-cell *matHeaderCellDef> Fee </th>
     <td mat-cell *matCellDef="let element">
       <span *ngIf="element.product && element.product.feePrct"> {{element.product.feePrct}}</span>
       <span *ngIf="!(element.product && element.product.feePrct)"> ? </span>
@@ -43,7 +45,7 @@
 
   <!-- Premium Column -->
   <ng-container matColumnDef="premium">
-    <th mat-header-cell *matHeaderCellDef> Value </th>
+    <th mat-header-cell *matHeaderCellDef> Premium </th>
     <td mat-cell *matCellDef="let element">
       <span *ngIf="element.product && element.product.premium"> {{element.product.premium}}</span>
       <span *ngIf="!(element.product && element.product.premium)"> ? </span>
@@ -51,8 +53,8 @@
   </ng-container>
 
   <!-- Insured Column -->
-  <ng-container matColumnDef="premium">
-    <th mat-header-cell *matHeaderCellDef> Value </th>
+  <ng-container matColumnDef="insured">
+    <th mat-header-cell *matHeaderCellDef> Inusred </th>
     <td mat-cell *matCellDef="let element">
       <span *ngIf="element.product.insured"> INSURED ({{element.product.insuredFrom}})</span>
     </td>

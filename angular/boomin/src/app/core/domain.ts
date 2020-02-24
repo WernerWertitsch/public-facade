@@ -14,12 +14,14 @@ export class Classification extends BaseEntity {
   category: Category;
 }
 
-export class ProductRequest {
-  classification: Classification;
-  value: number;
-}
+// export class ProductRequest {
+//   classification: Classification;
+//   value: number;
+// }
 
-export class Product extends ProductRequest {
+export class Product extends BaseEntity {
+  classification: Classification;
+  value: number = 0;
   feePrct: number;
   premium: number;
   cancelled: boolean;

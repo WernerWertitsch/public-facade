@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MainRowEntry, StateService} from "../../core/service/state.service";
 import {Observable} from "rxjs";
-import {Classification, ProductRequest} from "../../core/domain";
+import {Classification} from "../../core/domain";
 
 @Component({
   selector: 'app-main-row-entry',

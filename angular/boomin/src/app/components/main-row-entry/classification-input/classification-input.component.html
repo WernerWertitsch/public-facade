@@ -1,8 +1,10 @@
 <mat-form-field>
-  <input type="text" matInput [matAutocomplete]="auto" value="">
+  <input type="text" matInput [matAutocomplete]="auto" value="" [(ngModel)]="filter" (keyup)="filterChange()">
 </mat-form-field>
 
 <mat-autocomplete #auto="matAutocomplete">
-  <mat-option *ngFor="let option of allClassifications$ | async" [value]="option.name">{{option.name}}</mat-option>
+  <mat-option *ngFor="let option of allClassificationsFiltered$ | async"
+              (onSelectionChange)="emitSelection($event)"
+              [value]="option.name" [id]="option.id" >{{option.name}}</mat-option>
 </mat-autocomplete>
 
