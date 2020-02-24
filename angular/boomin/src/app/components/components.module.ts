@@ -11,23 +11,32 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {CoreModule} from "../core/core.module";
 import {MatTableModule} from "@angular/material/table";
+import { UploadComponent } from './upload/upload.component';
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
-  declarations: [MainRowEntryComponent, MainRowEntriesComponent, ClassificationInputComponent],
+  declarations: [MainRowEntryComponent, MainRowEntriesComponent, ClassificationInputComponent, UploadComponent],
   imports: [
     CommonModule,
     CoreModule,
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
+    MatButtonModule,
     MatToolbarModule,
     MatInputModule,
     MatFormFieldModule,
     MatAutocompleteModule,
-    MatTableModule
+    MatTableModule,
+    MatIconModule,
+    MatExpansionModule,
+
   ],
   exports: [
-    MainRowEntriesComponent
+    MainRowEntriesComponent,
+    UploadComponent
 
   ]
 })
